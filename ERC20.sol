@@ -20,4 +20,12 @@ contract ERC20 {
         totalSupply = _initialSupply * 10**uint256(decimals);
         balanceOf[msg.sender] = totalSupply;
     }
+
+    function transfer(address _to, uint256 _amount) public returns(bool success) {
+        require(balanceOf[msg.sender] >= _amount);
+        balanceOf[msg.sender] -= _amount;
+        balanceOf[_to] += _amount;
+        emit Transfer(msg.sender, _to, _amount);
+        return true;
+    }
 }
