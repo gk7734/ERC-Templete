@@ -36,4 +36,15 @@ contract ERC20 {
         emit Approval(msg.sender, _spender, _amount);
         return true;
     }
+
+    // 승인된 주소가 다른 사용자를 대신하여 토큰을 전송할 수 있음;
+    function transferFrom(address _from, address _to, uint256 _amount) public returns(bool success) {
+        require(balanceOf[_from] >= _amount, "Insufficient balance");
+        require(allowance[_from][msg.sender] >= _amount, "Insufficient allowance");
+        balanceOf[_from] -= _amount;
+        balanceOf[_to] += _amount;
+        allowance[_from][msg.sender] -= _amount;
+        emit Transfer(_from, _to, _amount);
+        return true;
+    }
 }
