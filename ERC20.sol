@@ -21,11 +21,19 @@ contract ERC20 {
         balanceOf[msg.sender] = totalSupply;
     }
 
+    // 사용자가 자신이 보유한 토큰을 다른 주소로 전송할 수 있음
     function transfer(address _to, uint256 _amount) public returns(bool success) {
         require(balanceOf[msg.sender] >= _amount);
         balanceOf[msg.sender] -= _amount;
         balanceOf[_to] += _amount;
         emit Transfer(msg.sender, _to, _amount);
+        return true;
+    }
+
+    // 특정 주소가 일정량의 토큰을 사용할 수 있도록 승인함
+    function approve(address _spender, uint256 _amount) public returns(bool success) {
+        allowance[msg.sender][_spender] = _amount;
+        emit Approval(msg.sender, _spender, _amount);
         return true;
     }
 }
